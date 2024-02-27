@@ -4,4 +4,5 @@ export const IMAGES = {
   grocery2: require("./gorcery2.jpg"),
   laundry1: require("./laundry1.jpg"),
   laundry2: require("./laundry2.jpg"),
+  washing: require("./washing.png"),
 };

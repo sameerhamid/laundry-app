@@ -14,44 +14,55 @@ const Services = () => {
   const services = [
     {
       id: 0,
-      image: IMAGES.grocery1,
+      image: IMAGES.washing,
       name: "Washing",
     },
     {
       id: 2,
-      image: IMAGES.grocery1,
+      image: IMAGES.washing,
       name: "Landry",
     },
     {
       id: 3,
-      image: IMAGES.grocery1,
+      image: IMAGES.washing,
       name: "Wash and Iron",
     },
     {
       id: 4,
-      image: IMAGES.grocery1,
+      image: IMAGES.washing,
       name: "Cleaning",
     },
   ];
   return (
-    <View>
+    <View style={{ marginTop: 22 }}>
+      <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 10 }}>
+        Services Available
+      </Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        <View style={{ flexDirection: "row", gap: 20 }}>
-          {services.map((item) => {
-            return (
-              <Pressable style={{ width: Dimensions.get("screen").width / 3 }}>
-                <Image
-                  source={item.image}
-                  style={{
-                    width: Dimensions.get("screen").width / 3,
-                    height: Dimensions.get("screen").width / 3,
-                  }}
-                />
-                <Text>{item.name}</Text>
-              </Pressable>
-            );
-          })}
-        </View>
+        {services.map((item) => {
+          return (
+            <Pressable
+              style={{
+                marginRight: 14,
+                backgroundColor: "white",
+                padding: 10,
+                borderRadius: 10,
+              }}
+            >
+              <Image
+                source={item.image}
+                style={{
+                  width: Dimensions.get("screen").width / 3,
+                  height: Dimensions.get("screen").width / 3,
+                  objectFit: "contain",
+                }}
+              />
+              <Text style={{ fontSize: 16, fontWeight: "500" }}>
+                {item.name}
+              </Text>
+            </Pressable>
+          );
+        })}
       </ScrollView>
     </View>
   );

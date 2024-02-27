@@ -8,6 +8,8 @@ import {
   Image,
   TextInput,
   Platform,
+  Dimensions,
+  ScrollView,
 } from "react-native";
 
 import React, { useEffect, useState } from "react";
@@ -17,6 +19,8 @@ import { MaterialIcons, FontAwesome } from "@expo/vector-icons";
 import { IMAGES } from "../assets/images";
 import Carousel from "../components/Carousel";
 import Services from "../components/Services";
+import { services } from "./data";
+import DressItem from "../components/DressItem";
 
 const HomeScreen = () => {
   const [displayCurrentAddress, setDisplayCurrentAddress] = useState(
@@ -88,16 +92,21 @@ const HomeScreen = () => {
 
   const renderLocationAndProfile = () => {
     return (
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
         <View
           style={{
             flexDirection: "row",
-            alignItems: "center",
+            // alignItems: "center",
             gap: 6,
           }}
         >
           <MaterialIcons name="location-on" size={30} color="red" />
-          <View>
+          <View style={{ width: Dimensions.get("screen").width - 160 }}>
             <Text style={{ fontSize: 22, fontWeight: "bold" }}>Home</Text>
             <Text>{displayCurrentAddress}</Text>
           </View>
@@ -134,12 +143,13 @@ const HomeScreen = () => {
   };
 
   return (
-    <SafeAreaView
+    <ScrollView
       style={{
         backgroundColor: "#F0F0F0",
         flex: 1,
         paddingHorizontal: 16,
         paddingTop: Platform.OS === "android" ? 34 : 0,
+        width: Dimensions.get("screen").width,
       }}
     >
       {/* location and profile  */}
@@ -152,7 +162,20 @@ const HomeScreen = () => {
       {/* render services  */}
 
       <Services />
-    </SafeAreaView>
+      {/* render all items  */}
+
+      <View
+        style={{
+          marginTop: 22,
+          gap: 16,
+          marginBottom: Platform.OS === "android" ? 44 : 0,
+        }}
+      >
+        {services.map((item) => (
+          <DressItem dress={item} key={item.id} />
+        ))}
+      </View>
+    </ScrollView>
   );
 };
 
