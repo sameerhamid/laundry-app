@@ -21,8 +21,27 @@ import Carousel from "../components/Carousel";
 import Services from "../components/Services";
 import { services } from "./data";
 import DressItem from "../components/DressItem";
+import { useDispatch, useSelector } from "react-redux";
+import { getProducts } from "../store/ProductReducer";
 
 const HomeScreen = () => {
+  const cart = useSelector((state) => state.cart.cart);
+  const products = useSelector((state) => state.product.product);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (products?.length > 0) {
+      return;
+    }
+    const fetchProducts = () => {
+      services.map((services) => dispatch(getProducts(services)));
+    };
+    fetchProducts();
+  }, []);
+
+  console.log(products);
+
+  console.log(cart);
   const [displayCurrentAddress, setDisplayCurrentAddress] = useState(
     "we are loading your location"
   );
@@ -171,8 +190,8 @@ const HomeScreen = () => {
           marginBottom: Platform.OS === "android" ? 44 : 0,
         }}
       >
-        {services.map((item) => (
-          <DressItem dress={item} key={item.id} />
+        {products.map((item) => (
+          <DressItem item={item} key={item.id} />
         ))}
       </View>
     </ScrollView>
