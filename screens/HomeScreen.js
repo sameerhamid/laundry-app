@@ -23,11 +23,16 @@ import { services } from "./data";
 import DressItem from "../components/DressItem";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../store/ProductReducer";
+import { useNavigation } from "@react-navigation/native";
 
 const HomeScreen = () => {
   const cart = useSelector((state) => state.cart.cart);
   const products = useSelector((state) => state.product.product);
   const dispatch = useDispatch();
+  const navigation = useNavigation();
+  const total = cart
+    .map((item) => item.quantity * item.price)
+    .reduce((curr, pre) => curr + pre, 0);
 
   useEffect(() => {
     if (products?.length > 0) {
@@ -162,39 +167,70 @@ const HomeScreen = () => {
   };
 
   return (
-    <ScrollView
-      style={{
-        backgroundColor: "#F0F0F0",
-        flex: 1,
-        paddingHorizontal: 16,
-        paddingTop: Platform.OS === "android" ? 34 : 0,
-        width: Dimensions.get("screen").width,
-      }}
-    >
-      {/* location and profile  */}
-      {renderLocationAndProfile()}
-      {/* search bar  */}
-      {renderSearchBar()}
-
-      <Carousel />
-
-      {/* render services  */}
-
-      <Services />
-      {/* render all items  */}
-
-      <View
+    <>
+      <ScrollView
         style={{
-          marginTop: 22,
-          gap: 16,
-          marginBottom: Platform.OS === "android" ? 44 : 0,
+          backgroundColor: "#F0F0F0",
+          flex: 1,
+          paddingHorizontal: 16,
+          paddingTop: Platform.OS === "android" ? 34 : 0,
+          width: Dimensions.get("screen").width,
         }}
       >
-        {products.map((item) => (
-          <DressItem item={item} key={item.id} />
-        ))}
-      </View>
-    </ScrollView>
+        {/* location and profile  */}
+        {renderLocationAndProfile()}
+        {/* search bar  */}
+        {renderSearchBar()}
+
+        <Carousel />
+
+        {/* render services  */}
+
+        <Services />
+        {/* render all items  */}
+
+        <View
+          style={{
+            marginTop: 22,
+            gap: 16,
+            marginBottom: Platform.OS === "android" ? 44 : 0,
+          }}
+        >
+          {products.map((item) => (
+            <DressItem item={item} key={item.id} />
+          ))}
+        </View>
+      </ScrollView>
+
+      {total !== 0 ? (
+        <Pressable
+          style={{
+            backgroundColor: "teal",
+            padding: 10,
+            marginBottom: 40,
+            margin: 15,
+            borderRadius: 7,
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <View>
+            <Text style={{ fontSize: 16, fontWeight: "600", color: "#fff" }}>
+              {cart.length} items | ${total ?? ""}
+            </Text>
+            <Text style={{ fontSize: 15, fontWeight: "400", color: "#fff" }}>
+              extra changes might apply
+            </Text>
+          </View>
+          <Pressable onPress={() => navigation.navigate("Pickup")}>
+            <Text style={{ fontSize: 17, fontWeight: "600", color: "#fff" }}>
+              Proceed to pickup
+            </Text>
+          </Pressable>
+        </Pressable>
+      ) : null}
+    </>
   );
 };
 

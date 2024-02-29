@@ -3,13 +3,14 @@ import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import HomeScreen from "./screens/HomeScreen";
 import { Provider } from "react-redux";
 import store from "./store/store";
+import "react-native-gesture-handler";
+import StackNavigator from "./StackNavigator";
 
 export default function App() {
   return (
     <Provider store={store}>
       <SafeAreaView style={styles.container}>
-        <StatusBar style="auto" />
-        <HomeScreen />
+        <StackNavigator />
       </SafeAreaView>
     </Provider>
   );
